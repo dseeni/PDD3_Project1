@@ -31,3 +31,65 @@ d3 = {key: (d1[key], d2[key]) for key in keys_difference}
 print(d3)
 
 
+# # ----------------------------------------------------------------------------
+# Exercise 3
+# You have text data spread across multiple servers. Each server is able to
+# analyze this data and return a dictionary that contains words and their
+# frequency.
+#
+# Your job is to combine this data to create a single dictionary that contains
+# all the words and their combined frequencies from all these data sources.
+#
+# Bonus points if you can make your dictionary sorted by frequency
+# (highest to lowest).
+# For example, you may have three servers that each return these dictionaries:
+# # ----------------------------------------------------------------------------
+
+d1 = {'python': 10, 'java': 3, 'c#': 8, 'javascript': 15}
+d2 = {'java': 10, 'c++': 10, 'c#': 4, 'go': 9, 'python': 6}
+d3 = {'erlang': 5, 'haskell': 2, 'python': 1, 'pascal': 1}
+final_dict = dict(d1)
+for key in d2.keys():
+    try:
+        final_dict[key] = d2[key] + final_dict[key]
+    except KeyError:
+        final_dict[key] = d2[key]
+for key in d3.keys():
+    try:
+        final_dict[key] = d3[key] + final_dict[key]
+    except KeyError:
+        final_dict[key] = d3[key]
+
+# use .get() for the default value and bypass this junk:
+def merge(*dicts):
+    unsorted = {}
+    for d in dicts:
+        for k, v in d.items():
+            unsorted[k] = unsorted.get(k, 0) + v
+
+    # create a dictionary sorted by value
+    return dict(sorted(unsorted.items(), key=lambda e: e[1], reverse=True))
+
+# # ----------------------------------------------------------------------------
+# Exercise 4
+# For this exercise suppose you have a web API load balanced across multiple
+# nodes. This API receives various requests for resources and logs each request
+# to some local storage. Each instance of the API is able to return a dictionary
+# containing the resource that was accessed (the dictionary key) and the number
+# of times it was requested (the associated value).
+#
+# Your task here is to identify resources that have been requested on some, but
+# not all the servers, so you can determine if you have an issue with your load
+# balancer not distributing certain resource requests across all nodes.
+#
+# For simplicity, we will assume that there are exactly 3 nodes in the cluster.
+#
+# You should write a function that takes 3 dictionaries as arguments for node 1,
+#     node 2, and node 3, and returns a dictionary that contains only keys that
+#     are not found in all of the dictionaries. The value should be a list
+#     containing the number of times it was requested in each node (the node
+#     order should match the dictionary (node) order passed to your function).
+#     Use 0 if the resource was not requested from the corresponding node.
+#
+# Suppose your dictionaries are for logs of all the GET requests on each node:
+# # ----------------------------------------------------------------------------
