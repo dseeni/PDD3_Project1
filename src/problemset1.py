@@ -28,7 +28,7 @@ d2 = {'b': 20, 'c': 30, 'y': 40, 'z': 50}
 d_tup = (d1, d2)
 keys_difference = d1.keys() & d2.keys()
 d3 = {key: (d1[key], d2[key]) for key in keys_difference}
-print(d3)
+# print(d3)
 
 
 # # ----------------------------------------------------------------------------
@@ -93,3 +93,44 @@ def merge(*dicts):
 #
 # Suppose your dictionaries are for logs of all the GET requests on each node:
 # # ----------------------------------------------------------------------------
+
+
+n1 = {'employees': 100, 'employee': 5000, 'users': 10, 'user': 100}
+n2 = {'employees': 250, 'users': 23, 'user': 230}
+n3 = {'employees': 150, 'users': 4, 'login': 1000}
+
+
+def uncommon_dict_keys(*args):
+    d_list = [d for d in args]
+    uncommon_keys = d_list[0].keys() - d_list[1].keys()
+    for i in range(1, len(d_list)):
+        if i == len(d_list)-1:
+            new_uncommon = d_list[i].keys() ^ d_list[0].keys()
+        else:
+            new_uncommon = d_list[i].keys() ^ d_list[i+1].keys()
+        uncommon_keys = uncommon_keys | new_uncommon
+    return uncommon_keys
+
+def uncommon_dict_kv(*args):
+    uncommon_keys = uncommon_dict_keys(*args)
+    print('116:', 'uncommon_keys ''='' ', uncommon_keys)
+    uncommon_dict = {}
+    for d in args:
+        for k in uncommon_keys:
+            # if key already exists in uncommon_dict:
+            if uncommon_dict.get(k) is not None:
+                try:
+                    uncommon_dict[k] = *uncommon_dict.get(k, 0), d.get(k, 0)
+
+                except TypeError:
+                    uncommon_dict[k] = uncommon_dict.get(k, 0), d.get(k, 0)
+                except KeyError:
+                    continue
+            # if key doesnt exist in uncommon_dict:
+            else:
+                uncommon_dict[k] = d.get(k, 0)
+    return uncommon_dict
+
+# print(uncommon_dict_keys(n1,n2,n3))
+
+print(uncommon_dict_kv(n1, n2, n3))
