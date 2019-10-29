@@ -140,3 +140,30 @@ def uncommon_dict_kv(*args):
 
 # print(uncommon_dict_keys(n1,n2,n3))
 print(uncommon_dict_kv(n1, n2, n3))
+
+# # ----------------------------------------------------------------------------
+# HIS SOLUTION:
+union = n1.keys() | n2.keys() | n3.keys()
+intersection = n1.keys() & n2.keys() & n3.keys()
+
+
+def identify(node1, node2, node3):
+    union = node1.keys() | node2.keys() | node3.keys()
+    intersection = node1.keys() & node2.keys() & node3.keys()
+    relevant = union - intersection
+    result = {key: (node1.get(key, 0),
+                    node2.get(key, 0),
+                    node3.get(key, 0))
+              for key in relevant}
+    return result
+
+def identify(node1, node2, node3):
+    union = node1.keys() | node2.keys() | node3.keys()
+    intersection = node1.keys() & node2.keys() & node3.keys()
+    relevant = union - intersection
+    result = {key: (node1.get(key, 0),
+                    node2.get(key, 0),
+                    node3.get(key, 0))
+              for key in relevant}
+    return result
+# # ----------------------------------------------------------------------------
