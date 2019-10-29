@@ -104,14 +104,19 @@ n3 = {'employees': 150, 'users': 4, 'login': 1000}
 
 def uncommon_dict_keys(*args):
     d_list = [d for d in args]
-    uncommon_keys = d_list[0].keys() - d_list[1].keys()
+    uncommon_keys = d_list[0].keys() ^ d_list[1].keys()
     for i in range(1, len(d_list)):
         if i == len(d_list)-1:
             new_uncommon = d_list[i].keys() ^ d_list[0].keys()
         else:
             new_uncommon = d_list[i].keys() ^ d_list[i+1].keys()
+        # aggregate the uncommon keys, as long as they are uncommon between
+        # 2, we don't have to check each key against every single one since
+        # if they aren't common between two pairs, they automatically count,
+        # so your answer vs his answer both solutions work for this problem.
         uncommon_keys = uncommon_keys | new_uncommon
     return uncommon_keys
+
 
 def uncommon_dict_kv(*args):
     uncommon_keys = uncommon_dict_keys(*args)
@@ -123,7 +128,6 @@ def uncommon_dict_kv(*args):
             if uncommon_dict.get(k) is not None:
                 try:
                     uncommon_dict[k] = *uncommon_dict.get(k, 0), d.get(k, 0)
-
                 except TypeError:
                     uncommon_dict[k] = uncommon_dict.get(k, 0), d.get(k, 0)
                 except KeyError:
@@ -133,6 +137,33 @@ def uncommon_dict_kv(*args):
                 uncommon_dict[k] = d.get(k, 0)
     return uncommon_dict
 
-# print(uncommon_dict_keys(n1,n2,n3))
 
+# print(uncommon_dict_keys(n1,n2,n3))
 print(uncommon_dict_kv(n1, n2, n3))
+
+# # ----------------------------------------------------------------------------
+# HIS SOLUTION:
+union = n1.keys() | n2.keys() | n3.keys()
+intersection = n1.keys() & n2.keys() & n3.keys()
+
+
+def identify(node1, node2, node3):
+    union = node1.keys() | node2.keys() | node3.keys()
+    intersection = node1.keys() & node2.keys() & node3.keys()
+    relevant = union - intersection
+    result = {key: (node1.get(key, 0),
+                    node2.get(key, 0),
+                    node3.get(key, 0))
+              for key in relevant}
+    return result
+
+def identify(node1, node2, node3):
+    union = node1.keys() | node2.keys() | node3.keys()
+    intersection = node1.keys() & node2.keys() & node3.keys()
+    relevant = union - intersection
+    result = {key: (node1.get(key, 0),
+                    node2.get(key, 0),
+                    node3.get(key, 0))
+              for key in relevant}
+    return result
+# # ----------------------------------------------------------------------------
