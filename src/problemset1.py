@@ -26,8 +26,8 @@ composers_dict = dict(sorted(composers.items(), key=lambda kv: kv[1]))
 d1 = {'a': 1, 'b': 2, 'c': 3, 'd': 4}
 d2 = {'b': 20, 'c': 30, 'y': 40, 'z': 50}
 d_tup = (d1, d2)
-keys_difference = d1.keys() & d2.keys()
-d3 = {key: (d1[key], d2[key]) for key in keys_difference}
+keys_intersection = d1.keys() & d2.keys()
+d3 = {key: (d1[key], d2[key]) for key in keys_intersection}
 # print(d3)
 
 
