@@ -1,1 +1,3 @@
-from src.constants import *
+
+if iter(0):
+    print(True)
