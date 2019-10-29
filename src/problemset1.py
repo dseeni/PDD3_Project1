@@ -27,8 +27,8 @@ d1 = {'a': 1, 'b': 2, 'c': 3, 'd': 4}
 d2 = {'b': 20, 'c': 30, 'y': 40, 'z': 50}
 d_tup = (d1, d2)
 keys_intersection = d1.keys() & d2.keys()
-d3 = {key: (d1[key], d2[key]) for key in keys_intersection}
-# print(d3)
+final = {key: (d1[key], d2[key]) for key in keys_intersection}
+# print(final)
 
 
 # # ----------------------------------------------------------------------------
@@ -49,6 +49,7 @@ d1 = {'python': 10, 'java': 3, 'c#': 8, 'javascript': 15}
 d2 = {'java': 10, 'c++': 10, 'c#': 4, 'go': 9, 'python': 6}
 d3 = {'erlang': 5, 'haskell': 2, 'python': 1, 'pascal': 1}
 final_dict = dict(d1)
+
 for key in d2.keys():
     try:
         final_dict[key] = d2[key] + final_dict[key]
@@ -60,6 +61,7 @@ for key in d3.keys():
     except KeyError:
         final_dict[key] = d3[key]
 
+# His Solution:
 # use .get() for the default value and bypass this junk:
 def merge(*dicts):
     unsorted = {}
