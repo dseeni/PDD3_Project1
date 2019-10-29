@@ -110,6 +110,10 @@ def uncommon_dict_keys(*args):
             new_uncommon = d_list[i].keys() ^ d_list[0].keys()
         else:
             new_uncommon = d_list[i].keys() ^ d_list[i+1].keys()
+        # aggregate the uncommon keys, as long as they are uncommon between
+        # 2, we don't have to check each key against every single one since
+        # if they aren't common between two pairs, they automatically count,
+        # so your answer vs his answer both solutions work for this problem.
         uncommon_keys = uncommon_keys | new_uncommon
     return uncommon_keys
 
